@@ -1,9 +1,11 @@
 import { Router } from 'express'
 import { validationResult } from 'express-validator'
 import { PersonReadModel } from '../models/person'
+import { mailRules } from '../rules/mail.rules'
 import { orderRules } from '../rules/order.rules'
 import { personRules } from '../rules/person.rules'
 import { userRules } from '../rules/user.rules'
+import { MailService } from '../services/mail.service'
 import { OrderService } from '../services/order.service'
 import { PersonService } from '../services/person.service'
 import { UserService } from '../services/user.service'
@@ -12,6 +14,7 @@ export const userRouter = Router()
 const userService = new UserService()
 const personService = new PersonService()
 const orderService = new OrderService()
+const mailService = new MailService()
 
 
 // User
@@ -77,5 +80,16 @@ userRouter.post('/orders/add', orderRules['bookSlot'], (req, res) => {
     const order = orderService.add(req.order);
     return order?.then((o) => {
         res.json(o)
+    });
+})
+
+// Mail Test
+userRouter.post('/mail/send', mailRules['sendMail'], (req, res) => {
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) return res.status(422).json(errors.array());
+    const mail = mailService.send(req.mail);
+    return mail?.then((m) => {
+        res.json(m)
     });
 })
