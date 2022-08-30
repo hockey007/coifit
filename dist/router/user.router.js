@@ -4,10 +4,12 @@ exports.userRouter = void 0;
 const express_1 = require("express");
 const express_validator_1 = require("express-validator");
 const mail_rules_1 = require("../rules/mail.rules");
+const message_rules_1 = require("../rules/message.rules");
 const order_rules_1 = require("../rules/order.rules");
 const person_rules_1 = require("../rules/person.rules");
 const user_rules_1 = require("../rules/user.rules");
 const mail_service_1 = require("../services/mail.service");
+const message_service_1 = require("../services/message.service");
 const order_service_1 = require("../services/order.service");
 const person_service_1 = require("../services/person.service");
 const user_service_1 = require("../services/user.service");
@@ -16,6 +18,7 @@ const userService = new user_service_1.UserService();
 const personService = new person_service_1.PersonService();
 const orderService = new order_service_1.OrderService();
 const mailService = new mail_service_1.MailService();
+const messageService = new message_service_1.MessageService();
 // User
 exports.userRouter.post('/auth', user_rules_1.userRules['forAuthentication'], (req, res) => {
     const errors = (0, express_validator_1.validationResult)(req);
@@ -80,6 +83,16 @@ exports.userRouter.post('/mail/send', mail_rules_1.mailRules['sendMail'], (req, 
         return res.status(422).json(errors.array());
     const mail = mailService.send(req.mail);
     return mail === null || mail === void 0 ? void 0 : mail.then((m) => {
+        res.json(m);
+    });
+});
+// Message Test
+exports.userRouter.post('/message/send', message_rules_1.messageRules['sendMessage'], (req, res) => {
+    const errors = (0, express_validator_1.validationResult)(req);
+    if (!errors.isEmpty())
+        return res.status(422).json(errors.array());
+    const message = messageService.send(req.message);
+    return message === null || message === void 0 ? void 0 : message.then((m) => {
         res.json(m);
     });
 });

@@ -2,10 +2,12 @@ import { Router } from 'express'
 import { validationResult } from 'express-validator'
 import { PersonReadModel } from '../models/person'
 import { mailRules } from '../rules/mail.rules'
+import { messageRules } from '../rules/message.rules'
 import { orderRules } from '../rules/order.rules'
 import { personRules } from '../rules/person.rules'
 import { userRules } from '../rules/user.rules'
 import { MailService } from '../services/mail.service'
+import { MessageService } from '../services/message.service'
 import { OrderService } from '../services/order.service'
 import { PersonService } from '../services/person.service'
 import { UserService } from '../services/user.service'
@@ -15,6 +17,7 @@ const userService = new UserService()
 const personService = new PersonService()
 const orderService = new OrderService()
 const mailService = new MailService()
+const messageService = new MessageService()
 
 
 // User
@@ -90,6 +93,17 @@ userRouter.post('/mail/send', mailRules['sendMail'], (req, res) => {
     if (!errors.isEmpty()) return res.status(422).json(errors.array());
     const mail = mailService.send(req.mail);
     return mail?.then((m) => {
+        res.json(m)
+    });
+})
+
+// Message Test
+userRouter.post('/message/send', messageRules['sendMessage'], (req, res) => {
+    const errors = validationResult(req)
+
+    if (!errors.isEmpty()) return res.status(422).json(errors.array());
+    const message = messageService.send(req.message);
+    return message?.then((m) => {
         res.json(m)
     });
 })

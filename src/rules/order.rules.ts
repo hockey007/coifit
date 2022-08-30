@@ -1,7 +1,7 @@
 import { Json } from 'sequelize/types/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { ItemAddModel, ItemReadModel} from "../models/item";
-import { OrderAddModel } from '../models/orders';
+import { OrderAddModel } from '../models/order';
 import { User } from '../models/user';
 
 export const orderRules = {

@@ -1,5 +1,5 @@
 import * as Bluebird from 'Bluebird'
-import { Order, OrderAddModel, OrderViewModel } from '../models/orders'
+import { Order, OrderAddModel, OrderViewModel } from '../models/order'
 
 export class OrderService {
     private readonly _saltRounds = 12
