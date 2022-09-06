@@ -1,5 +1,6 @@
 import * as Sequelize from 'sequelize'
 import { sequelize } from '../instances/sequelize'
+import { Cart } from './cart'
 
 export interface UserAddModel {
     id?: string

@@ -6,12 +6,12 @@ import { userRouter } from './router/user.router';
 import { tokenGuard } from './middleware/token-guard'
 import { parlorRouter } from './router/parlor.router';
 import { itemRouter } from './router/item.router';
-
 dotenv.config();
+import defineModels from './instances/defineModels';
 
 const app: Express = express();
 const port = process.env.PORT;
-
+defineModels();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
