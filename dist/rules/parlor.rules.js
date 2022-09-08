@@ -26,7 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.parlorRules = void 0;
 const bcrypt = __importStar(require("bcrypt"));
 const uuid_1 = require("uuid");
-const parlor_1 = require("../models/parlor");
+const sequelize_1 = require("../instances/sequelize");
 exports.parlorRules = {
     registerParlor: [
         (req, res, next) => {
@@ -41,7 +41,7 @@ exports.parlorRules = {
                 res.json({ error: true, message: "Password length should be atleast 8 characters" });
             }
             else {
-                parlor_1.Parlor.findOne({ where: { mobile } }).then((user) => {
+                sequelize_1.Parlor.findOne({ where: { mobile } }).then((user) => {
                     if (!user) {
                         var userdata = {
                             id: (0, uuid_1.v4)(),
@@ -71,14 +71,14 @@ exports.parlorRules = {
             if (!mobile)
                 res.status(500).json({ error: true, message: "Invalid Request" });
             if (mobile.match(/^[6-9][0-9]{9}$/)) {
-                parlor_1.Parlor.findOne({ where: { mobile } }).then((user) => {
+                sequelize_1.Parlor.findOne({ where: { mobile } }).then((user) => {
                     var raw_user = user === null || user === void 0 ? void 0 : user.toJSON();
                     if (!user)
                         res.json({
                             error: true,
                             message: "No Parlor registered with this mobile number",
                         });
-                    var checkPassword = parlor_1.Parlor.findOne({
+                    var checkPassword = sequelize_1.Parlor.findOne({
                         where: { mobile: mobile },
                     }).then((u) => bcrypt
                         .compare(password, u.password)

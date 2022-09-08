@@ -1,6 +1,6 @@
 import * as bcrypt from "bcrypt";
 import { v4 as uuidv4 } from 'uuid';
-import { Parlor, ParlorAddModel } from "../models/parlor";
+import { Parlor } from "../instances/sequelize";
 
 export const parlorRules = {
   registerParlor: [
@@ -17,7 +17,7 @@ export const parlorRules = {
       } else {
         Parlor.findOne({ where: { mobile } }).then((user) => {
           if (!user) {
-            var userdata: ParlorAddModel = {
+            var userdata: any = {
               id: uuidv4(),
               mobile: mobile,
               password: password,
@@ -64,7 +64,7 @@ export const parlorRules = {
                     message: "Incorrect password!",
                   });
                 }
-                var userdata: ParlorAddModel = {
+                var userdata: any = {
                   id: u!.id,
                   password: raw_user?.password!,
                   mobile: raw_user?.mobile!,

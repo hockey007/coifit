@@ -1,5 +1,4 @@
-import * as Bluebird from 'Bluebird'
-import { Order, OrderAddModel, OrderViewModel } from '../models/orders'
+import { Order} from '../instances/sequelize'
 
 export class OrderService {
     private readonly _saltRounds = 12
@@ -13,7 +12,7 @@ export class OrderService {
         return OrderService._order
     }
 
-    add({ id, userId, category, services, amount, discount, coupon, parlor, from, till, duration, status }: OrderAddModel) {
+    add({ id, userId, category, services, amount, discount, coupon, parlor, from, till, duration, status }: any) {
         if (!userId || !category || !services || !amount || !discount || !coupon || !parlor || !from || !till || !duration) return null;
         return Order.create({
             id,
@@ -34,6 +33,6 @@ export class OrderService {
     getOrderById(id: string) {
         return Order.findByPk(id, {
             attributes: OrderService.orderAttributes
-        }) as unknown as Bluebird<OrderViewModel>
+        })
     }
 }

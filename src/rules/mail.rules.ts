@@ -1,6 +1,6 @@
 import { Json } from 'sequelize/types/utils';
 import { v4 as uuidv4 } from 'uuid';
-import { MailSendModel } from '../models/mail';
+import { MailSendModel } from '../models/mailModel';
 
 export const mailRules = {
   sendMail: [

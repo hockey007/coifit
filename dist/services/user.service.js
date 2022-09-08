@@ -27,8 +27,7 @@ exports.UserService = void 0;
 const bcrypt = __importStar(require("bcrypt"));
 const Jwt = __importStar(require("jsonwebtoken"));
 const otpGenerator = require("otp-generator");
-const user_1 = require("../models/user");
-const otp_1 = require("../models/otp");
+const sequelize_1 = require("../instances/sequelize");
 class UserService {
     constructor() {
         this._saltRounds = 12;
@@ -41,20 +40,20 @@ class UserService {
         return UserService._user;
     }
     auth({ id, mobile }) {
-        return user_1.User.findOne({ where: { mobile } }).then((user) => {
+        return sequelize_1.User.findOne({ where: { mobile } }).then((user) => {
             if (!user) {
-                user_1.User.create({ id, mobile }).then(u => this.getUserById(u.id));
+                sequelize_1.User.create({ id, mobile }).then(u => this.getUserById(u.id));
             }
             const OTP = (Math.floor(Math.random() * 1000000) + 1000000).toString().substring(1);
             return bcrypt.hash(OTP, this._saltRounds).then((hash) => {
-                return otp_1.Otp.create({ mobile, otp: hash, type: "user" }).then(() => {
+                return sequelize_1.Otp.create({ mobile, otp: hash, type: "user" }).then(() => {
                     return { message: "OTP sent!", otp: OTP };
                 });
             });
         });
     }
     verify({ mobile }) {
-        return user_1.User.findOne({ where: { mobile } }).then(u => {
+        return sequelize_1.User.findOne({ where: { mobile } }).then(u => {
             if (!u) {
                 return { message: "Invalid Request!" };
             }
@@ -71,14 +70,14 @@ class UserService {
                     resolve(false);
                     return;
                 }
-                UserService._user = user_1.User.findByPk(decoded['id']);
+                UserService._user = sequelize_1.User.findByPk(decoded['id']);
                 resolve(true);
                 return;
             });
         });
     }
     getUserById(id) {
-        return user_1.User.findByPk(id, {
+        return sequelize_1.User.findByPk(id, {
             attributes: UserService.userAttributes
         });
     }

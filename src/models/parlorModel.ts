@@ -1,5 +1,4 @@
 import * as Sequelize from 'sequelize'
-import { sequelize } from '../instances/sequelize'
 
 export interface ParlorAddModel {
     id: string
@@ -26,7 +25,7 @@ export interface ParlorReadModel {
     limit: number
 }
 
-export const Parlor = sequelize.define<ParlorModel, ParlorAddModel>('parlor', {
+export const ParlorModel = (sequelize:Sequelize.Sequelize) => sequelize.define<ParlorModel, ParlorAddModel>('parlor', {
     id: {
         type: Sequelize.STRING,
         primaryKey: true

@@ -1,9 +1,7 @@
 import * as bcrypt from 'bcrypt'
 import * as Jwt from 'jsonwebtoken'
-import * as Bluebird from 'Bluebird'
 const otpGenerator = require("otp-generator");
-import { User, UserModel, UserAddModel, UserViewModel, UserVerifyModel } from '../models/user'
-import { Otp } from '../models/otp';
+import { User,Otp } from '../instances/sequelize';
 
 export class UserService {
     private readonly _saltRounds = 12
@@ -17,7 +15,7 @@ export class UserService {
         return UserService._user
     }
 
-    auth({ id, mobile }: UserAddModel) {
+    auth({ id, mobile }: any) {
         return User.findOne({ where: { mobile } }).then((user) => {
             if(!user) {
                 User.create({ id, mobile }).then(u => this.getUserById(u!.id))
@@ -31,7 +29,7 @@ export class UserService {
         });
     }
 
-    verify({ mobile }: UserAddModel) {
+    verify({ mobile }: any) {
         return User.findOne({ where: { mobile } }).then(u => {
             if(!u) {
                 return {message: "Invalid Request!"}
@@ -60,6 +58,6 @@ export class UserService {
     getUserById(id: string) {
         return User.findByPk(id, {
             attributes: UserService.userAttributes
-        }) as unknown as Bluebird<UserViewModel>
+        })
     }
 }

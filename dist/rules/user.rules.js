@@ -26,8 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userRules = void 0;
 const bcrypt = __importStar(require("bcrypt"));
 const uuid_1 = require("uuid");
-const user_1 = require("../models/user");
-const otp_1 = require("../models/otp");
+const sequelize_1 = require("../instances/sequelize");
 exports.userRules = {
     forAuthentication: [
         (req, res, next) => {
@@ -38,7 +37,7 @@ exports.userRules = {
                 res.json({ error: true, message: "Invalid mobile number" });
             }
             else {
-                user_1.User.findOne({ where: { mobile } }).then((user) => {
+                sequelize_1.User.findOne({ where: { mobile } }).then((user) => {
                     if (!user) {
                         var userdata = {
                             id: (0, uuid_1.v4)(),
@@ -70,7 +69,7 @@ exports.userRules = {
             var otp = req.body.otp;
             if (!mobile || !otp)
                 res.status(500).json({ error: true, message: "Invalid Request" });
-            otp_1.Otp.findOne({ where: { mobile } }).then((user) => {
+            sequelize_1.Otp.findOne({ where: { mobile } }).then((user) => {
                 if (!user) {
                     res.status(403).json({ error: true, message: "Invalid Credentials" });
                 }
@@ -85,7 +84,7 @@ exports.userRules = {
                                 mobile: raw_user === null || raw_user === void 0 ? void 0 : raw_user.mobile,
                             };
                             req.user = userdata;
-                            otp_1.Otp.destroy({ where: { mobile } });
+                            sequelize_1.Otp.destroy({ where: { mobile } });
                             next();
                         }
                     });

@@ -2,7 +2,7 @@ import { Router } from "express";
 import { validationResult } from "express-validator";
 import { ItemService } from "../services/item.service";
 import { itemRules } from "../rules/item.rules";
-import { ItemReadModel } from "../models/item";
+import { ItemReadModel } from "../models/itemModel";
 
 export const itemRouter = Router();
 const itemService = new ItemService();

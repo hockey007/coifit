@@ -1,5 +1,4 @@
-import * as Bluebird from "Bluebird";
-import { Person, PersonAddModel, PersonReadModel, PersonViewModel } from "../models/person";
+import { Person, } from "../instances/sequelize";
 import { UserService } from "./user.service";
 
 export class PersonService {
@@ -12,7 +11,7 @@ export class PersonService {
         return PersonService._person;
     }
 
-    add({ id, userId, name, age, gender, category, tag }: PersonAddModel) {
+    add({ id, userId, name, age, gender, category, tag }: any) {
         if (!userId || !name || !age || !gender || !category) return null;
         return Person.create({
             id,
@@ -25,7 +24,7 @@ export class PersonService {
         }).then((person) => this.getPersonById(person!.id));
     }
 
-    read({ userId, offset, limit }: PersonReadModel) {
+    read({ userId, offset, limit }: any) {
         return Person.findAll({
           where: { userId: userId },
           attributes: PersonService.personAttributes,
@@ -37,6 +36,6 @@ export class PersonService {
     getPersonById(id: string) {
         return Person.findByPk(id, {
             attributes: PersonService.personAttributes,
-        }) as unknown as Bluebird<PersonViewModel>;
+        });
     }
 }

@@ -1,8 +1,8 @@
 import { Json } from 'sequelize/types/utils';
 import { v4 as uuidv4 } from 'uuid';
-import { ItemAddModel, ItemReadModel} from "../models/item";
-import { OrderAddModel } from '../models/orders';
-import { User } from '../models/user';
+import { ItemAddModel, ItemReadModel} from "../models/itemModel";
+import { OrderAddModel } from '../models/ordersModel';
+import { User } from '../instances/sequelize';
 
 export const orderRules = {
   bookSlot: [

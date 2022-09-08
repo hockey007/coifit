@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ItemAddModel, ItemReadModel} from "../models/item";
+import { ItemAddModel, ItemReadModel} from "../models/itemModel";
 
 export const itemRules = {
   addItem: [

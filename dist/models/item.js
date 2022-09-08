@@ -25,11 +25,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Item = void 0;
 const Sequelize = __importStar(require("sequelize"));
-const sequelize_1 = require("../instances/sequelize");
-exports.Item = sequelize_1.sequelize.define('item', {
+const Item = (sequelize) => sequelize.define('item', {
     id: {
         type: Sequelize.STRING,
-        primaryKey: true
+        primaryKey: true,
     },
     parlorId: Sequelize.STRING,
     name: Sequelize.STRING,
@@ -37,7 +36,8 @@ exports.Item = sequelize_1.sequelize.define('item', {
     category: Sequelize.STRING,
     eta: Sequelize.INTEGER,
     price: Sequelize.INTEGER,
-    status: Sequelize.STRING
+    status: Sequelize.STRING,
 }, {
-    tableName: 'items'
+    tableName: 'items',
 });
+exports.Item = Item;

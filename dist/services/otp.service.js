@@ -27,8 +27,7 @@ exports.UserService = void 0;
 const bcrypt = __importStar(require("bcrypt"));
 const otpGenerator = require("otp-generator");
 const Jwt = __importStar(require("jsonwebtoken"));
-const user_1 = require("../models/user");
-const otp_1 = require("../models/otp");
+const sequelize_1 = require("../instances/sequelize");
 class UserService {
     constructor() {
         this._saltRounds = 12;
@@ -48,7 +47,7 @@ class UserService {
             specialChars: false,
         });
         return bcrypt.hash(OTP, this._saltRounds).then((hash) => {
-            return otp_1.Otp.create({ mobile, otp: hash, type: type }).then((u) => {
+            return sequelize_1.Otp.create({ mobile, otp: hash, type: type }).then((u) => {
                 return OTP;
             });
         });
@@ -60,14 +59,14 @@ class UserService {
                     resolve(false);
                     return;
                 }
-                UserService._user = user_1.User.findByPk(decoded["id"]);
+                UserService._user = sequelize_1.User.findByPk(decoded["id"]);
                 resolve(true);
                 return;
             });
         });
     }
     getUserById(id) {
-        return user_1.User.findByPk(id, {
+        return sequelize_1.User.findByPk(id, {
             attributes: UserService.userAttributes,
         });
     }

@@ -15,7 +15,7 @@ export interface OtpModel extends Sequelize.Model<OtpModel, OtpAddModel> {
     createdAt: string
     updatedAt: string
 }
-export const Otp = sequelize.define<OtpModel, OtpAddModel>('otp', {
+export const OtpModel = (sequelize:Sequelize.Sequelize) => sequelize.define<OtpModel, OtpAddModel>('otp', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,

@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { validationResult } from 'express-validator'
-import { PersonReadModel } from '../models/person'
+import { PersonReadModel } from '../models/personModel'
 import { mailRules } from '../rules/mail.rules'
 import { orderRules } from '../rules/order.rules'
 import { personRules } from '../rules/person.rules'

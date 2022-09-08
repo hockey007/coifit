@@ -1,5 +1,6 @@
-import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
+import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import * as bodyParser from 'body-parser'
 import { userRouter } from './router/user.router';
@@ -7,7 +8,6 @@ import { tokenGuard } from './middleware/token-guard'
 import { parlorRouter } from './router/parlor.router';
 import { itemRouter } from './router/item.router';
 
-dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT;

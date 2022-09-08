@@ -1,8 +1,7 @@
 import * as bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid';
 import { check } from 'express-validator'
-import { User, UserAddModel } from '../models/user'
-import { Otp } from '../models/otp';
+import { User,Otp } from '../instances/sequelize';
 import e from 'express';
 
 export const userRules = {
@@ -18,7 +17,7 @@ export const userRules = {
       } else {
         User.findOne({ where: { mobile } }).then((user) => {
           if (!user) {
-            var userdata: UserAddModel = {
+            var userdata: any = {
               id: uuidv4(),
               mobile: mobile
             };
@@ -26,7 +25,7 @@ export const userRules = {
             next();
           } else {
             if(true) {
-              var userdata: UserAddModel = {
+              var userdata: any = {
                 id: user!.id,
                 mobile: user!.mobile
               };
@@ -58,7 +57,7 @@ export const userRules = {
               if(!valid) {
                 res.status(402).json({error: true, message: "Invalid OTP!"});
               } else {
-                var userdata: UserAddModel = {
+                var userdata: any = {
                   mobile: raw_user?.mobile!,
                 };
                 req.user = userdata;

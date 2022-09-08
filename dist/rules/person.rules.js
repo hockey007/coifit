@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.personRules = void 0;
 const uuid_1 = require("uuid");
-const user_1 = require("../models/user");
+// import { PersonAddModel, PersonReadModel} from "../instances/sequelize";
+const sequelize_1 = require("../instances/sequelize");
 var Categories;
 (function (Categories) {
     Categories["SELF"] = "self";
@@ -25,7 +26,7 @@ exports.personRules = {
             var tag = req.body.tag;
             if (!userId || !name || !age || !gender || !category)
                 res.status(500).json({ error: true, message: "Invalid Request" });
-            user_1.User.findOne({ where: { id: userId } }).then((user) => {
+            sequelize_1.User.findOne({ where: { id: userId } }).then((user) => {
                 if (!user) {
                     res.status(500).json({ error: true, message: "Invalid User ID" });
                 }

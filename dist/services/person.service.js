@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PersonService = void 0;
-const person_1 = require("../models/person");
+const sequelize_1 = require("../instances/sequelize");
 class PersonService {
     static get personAttributes() {
         return ["id", "name", "age", "gender", "category", "tag"];
@@ -12,7 +12,7 @@ class PersonService {
     add({ id, userId, name, age, gender, category, tag }) {
         if (!userId || !name || !age || !gender || !category)
             return null;
-        return person_1.Person.create({
+        return sequelize_1.Person.create({
             id,
             userId,
             name,
@@ -23,7 +23,7 @@ class PersonService {
         }).then((person) => this.getPersonById(person.id));
     }
     read({ userId, offset, limit }) {
-        return person_1.Person.findAll({
+        return sequelize_1.Person.findAll({
             where: { userId: userId },
             attributes: PersonService.personAttributes,
             offset: offset || 0,
@@ -31,7 +31,7 @@ class PersonService {
         });
     }
     getPersonById(id) {
-        return person_1.Person.findByPk(id, {
+        return sequelize_1.Person.findByPk(id, {
             attributes: PersonService.personAttributes,
         });
     }

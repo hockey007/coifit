@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { PersonAddModel, PersonReadModel} from "../models/person";
-import { User } from '../models/user';
+// import { PersonAddModel, PersonReadModel} from "../instances/sequelize";
+import { User } from '../instances/sequelize';
 
 enum Categories {
     SELF = "self",
@@ -41,7 +41,7 @@ export const personRules = {
           } else if(!(Object.values(Categories).includes(category as Categories))) {
             res.json({ error: true, message: "Invalid/Empty Category" });
           } else {
-            var personInfo: PersonAddModel = {
+            var personInfo: any = {
               id: uuidv4(),
               userId: userId,
               name: name,

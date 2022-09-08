@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderRules = void 0;
 const uuid_1 = require("uuid");
-const user_1 = require("../models/user");
+const sequelize_1 = require("../instances/sequelize");
 exports.orderRules = {
     bookSlot: [
         (req, res, next) => {
@@ -18,7 +18,7 @@ exports.orderRules = {
             var duration = req.body.duration;
             if (!userId || !category || !services || !amount || !discount || !coupon || !parlor || !from || !till)
                 res.status(500).json({ error: true, message: "Invalid Request" });
-            user_1.User.findOne({ where: { id: userId } }).then((user) => {
+            sequelize_1.User.findOne({ where: { id: userId } }).then((user) => {
                 if (!user) {
                     res.status(500).json({ error: true, message: "Invalid User ID" });
                 }

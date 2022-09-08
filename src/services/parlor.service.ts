@@ -1,7 +1,6 @@
 import * as bcrypt from 'bcrypt'
 import * as Jwt from 'jsonwebtoken'
-import * as Bluebird from 'Bluebird'
-import { Parlor, ParlorModel, ParlorAddModel, ParlorViewModel } from '../models/parlor'
+import { Parlor, } from '../instances/sequelize'
 
 export class ParlorService {
     private readonly _saltRounds = 12
@@ -15,7 +14,7 @@ export class ParlorService {
         return ParlorService._parlor
     }
 
-    register({ mobile, password, id }: ParlorAddModel) {
+    register({ mobile, password, id }: any) {
         if(!password) return null;
         return bcrypt.hash(password, this._saltRounds)
             .then(hash => {
@@ -24,7 +23,7 @@ export class ParlorService {
             })
     }
 
-    login({ mobile }: ParlorAddModel) {
+    login({ mobile }: any) {
         return Parlor.findOne({ where: { mobile } }).then(u => {
             if(u==null) throw "Invalid User"
             const { id, mobile } = u!
@@ -50,6 +49,6 @@ export class ParlorService {
     getParlorById(id: string) {
         return Parlor.findByPk(id, {
             attributes: ParlorService.userAttributes
-        }) as unknown as Bluebird<ParlorViewModel>
+        })
     }
 }

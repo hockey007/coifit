@@ -26,7 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ParlorService = void 0;
 const bcrypt = __importStar(require("bcrypt"));
 const Jwt = __importStar(require("jsonwebtoken"));
-const parlor_1 = require("../models/parlor");
+const sequelize_1 = require("../instances/sequelize");
 class ParlorService {
     constructor() {
         this._saltRounds = 12;
@@ -43,12 +43,12 @@ class ParlorService {
             return null;
         return bcrypt.hash(password, this._saltRounds)
             .then(hash => {
-            return parlor_1.Parlor.create({ id, mobile, password: hash })
+            return sequelize_1.Parlor.create({ id, mobile, password: hash })
                 .then(u => this.getParlorById(u.id));
         });
     }
     login({ mobile }) {
-        return parlor_1.Parlor.findOne({ where: { mobile } }).then(u => {
+        return sequelize_1.Parlor.findOne({ where: { mobile } }).then(u => {
             if (u == null)
                 throw "Invalid User";
             const { id, mobile } = u;
@@ -62,14 +62,14 @@ class ParlorService {
                     resolve(false);
                     return;
                 }
-                ParlorService._parlor = parlor_1.Parlor.findByPk(decoded['id']);
+                ParlorService._parlor = sequelize_1.Parlor.findByPk(decoded['id']);
                 resolve(true);
                 return;
             });
         });
     }
     getParlorById(id) {
-        return parlor_1.Parlor.findByPk(id, {
+        return sequelize_1.Parlor.findByPk(id, {
             attributes: ParlorService.userAttributes
         });
     }
