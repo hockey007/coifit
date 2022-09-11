@@ -12,12 +12,13 @@ const password = '';
 
 const sequelize = new Sequelize(`${process.env.MYSQL_URI}/${database}` || `mysql://${username}:${password}@localhost/${database}`, {
     dialect: 'mysql',
-    port: 3306,
+    // logging: false
 });
 
 // sequelize.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
 
 // sequelize.query(`USE ${database}`);
+
 
 const Item = ItemModel(sequelize);
 const Mail = MailModel(sequelize);
@@ -27,6 +28,7 @@ const Parlor = ParlorModel(sequelize);
 const User = UserModel(sequelize);
 const Person = PersonModel(sequelize);
 
-sequelize.sync({force:true})
+sequelize.sync()
+
 
 export { sequelize, Item, Mail, Order, User,Otp,Parlor,Person };

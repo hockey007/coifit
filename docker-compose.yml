@@ -8,27 +8,30 @@ services:
     ports:
       - 8000:8000
     environment:
-      - MYSQL_URI: mysql://root:coifit@10.5.0.3:3306
-      - MYSQL_DB: coifit
-      - PORT: 8000
+      MYSQL_URI: mysql://root:coifit@10.9.0.3:3306
+      MYSQL_DB: coifit
+      PORT: 8000
     depends_on:
       - db
     networks:
       mynet:
-        ipv4_address: 10.5.0.2
+        ipv4_address: 10.9.0.2
   db:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
+    ports:
+      - 3306
     environment:
+      MYSQL_DATABASE: coifit
       MYSQL_ROOT_PASSWORD: coifit
     networks:
       mynet:
-        ipv4_address: 10.5.0.3
+        ipv4_address: 10.9.0.3
 networks:
   mynet:
     driver: bridge
     ipam:
      config:
-       - subnet: 10.5.0.0/16
-         gateway: 10.5.0.1
+       - subnet: 10.9.0.0/16
+         gateway: 10.9.0.1
