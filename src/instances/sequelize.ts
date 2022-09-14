@@ -58,12 +58,17 @@ sequelize.sync();
     User.belongsTo(Cart);
     console.log('Hi');
 })().then(async () => {
-    var cart: any = await Cart.findOne({
-        include: {
+    var cartItem: any = await Cart.findOne({
+        include: [{
             model: CartItem,
-        }
+            include: [{
+                model: CartQuantity
+            }]
+        }]
+    }).catch((err) => {
+        console.log(err);
     });
-    console.log(cart);
+    console.log(cartItem);
     // var cartItem = await cart.getCartItems();
 
     // console.log(cartItem);
